@@ -1,0 +1,118 @@
+name: Oak CI Android Release 
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+     - release
+
+jobs:
+  build_release_apk:
+    name: Build OakStore Release APK
+    runs-on: ubuntu-latest
+    env:
+      GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+      API_FILE: ${{ secrets.API_FILE }}
+      
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+          cache: gradle
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x oak_client/gradlew
+
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: Create google-services.json
+        run: echo "$GOOGLE_SERVICES_JSON" > oak_client/store/google-services.json
+
+      - name: Check google-services.json
+        run: cat oak_client/store/google-services.json
+
+      - name: Create api_keys.xml
+        run: echo "$API_FILE" > oak_client/store/src/main/res/values/api_keys.xml
+
+      - name: Check api_keys.xml
+        run: cat oak_client/store/src/main/res/values/api_keys.xml
+
+      - name: Build APK
+        run: bash ./gradlew assembleRelease --stacktrace --no-daemon 
+
+      - name: Sign APK
+        id: sign_apk
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: oak_client/store/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+        env:
+          BUILD_TOOLS_VERSION: "34.0.0"
+
+      - name: Upload signed APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Oak Store APK
+          path: ${{ steps.sign_apk.outputs.signedReleaseFile }}
+
+      - name: Send Build Failure Notification to Telegram
+        if: failure()
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          format: markdown
+          disable_web_page_preview: false
+          message: |
+            *Build Failed!*
+            Repository: *${{ github.repository }}*
+            Branch: *${{ github.ref_name }}*
+            Type: release
+            Commit message: `${{ github.event.head_commit.message }}`
+            [Check the logs](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+
+      - name: List output directory contents
+        run: ls -R oak_client/store/build/outputs/apk/
+
+      - name: Send APK to OakStore CI Telegram
+        if: success()
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          format: markdown
+          document: ${{ steps.sign_apk.outputs.signedReleaseFile }}
+          disable_web_page_preview: false
+          message: |
+            *Build Success!*
+            Repository: *${{ github.repository }}*
+            Branch: *${{ github.ref_name }}*
+            ```java
+            // Alert: RELEASE VERSIONS IS UNSTABLE !!! 
+            ``` 
+            Type: release
+            Commit message: `${{ github.event.head_commit.message }}`
+            [Check the logs](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+
+      - name: Send APK to Sketchware Pro Group Telegram
+        if: success()
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO_OLP }}
+          token: ${{ secrets.TELEGRAM_TOKEN_OLP }}
+          format: markdown
+          document: ${{ steps.sign_apk.outputs.signedReleaseFile }}
+          disable_web_page_preview: false
+          message: |
+            Nova build da *Oak Store!*
+            Repository: *${{ github.repository }}*
+            Baixe agora:
