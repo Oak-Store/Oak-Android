@@ -11,6 +11,12 @@ on:
       - oak_client/gradlew
       - oak_client/gradlew.bat
       - oak_client/settings.gradle.kts
+      - oak_console/store/**
+      - oak_console/build.gradle.kts
+      - oak_console/gradle.properties
+      - oak_console/gradlew
+      - oak_console/gradlew.bat
+      - oak_console/settings.gradle.kts
 
 jobs:
   build_debug_apk_client:
