@@ -167,7 +167,7 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: store-debug
+          name: console-debug
           path: oak_console/console/build/outputs/apk/debug/console-debug.apk
 
       - name: Send APK to OakStore CI Telegram
