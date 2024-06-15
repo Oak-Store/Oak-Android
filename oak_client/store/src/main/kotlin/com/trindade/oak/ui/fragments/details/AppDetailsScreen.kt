@@ -19,7 +19,7 @@ import com.trindade.oak.ui.fragments.home.lists.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppDetailsScreen(app: AppModel) {
+fun AppDetailsScreen(app: ProjectModel) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -33,6 +33,6 @@ fun AppDetailsScreen(app: AppModel) {
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun AppDetailsContent (app: AppModel) {
+fun AppDetailsContent (app: ProjectModel) {
      AppItem(app)
 }

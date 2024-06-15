@@ -34,13 +34,13 @@ fun HomeScreen(context: Context) {
 @Composable
 private fun HomeContent(context: Context) {
     val context = context.applicationContext
-    val (apps, setApps) = remember { mutableStateOf<List<AppModel>?>(null) }
+    val (apps, setApps) = remember { mutableStateOf<List<ProjectModel>?>(null) }
     val (error, setError) = remember { mutableStateOf<String?>(null) }
     val dataRepo = DataRepository(context)
 
     LaunchedEffect(Unit) {
         dataRepo.getData(context.getString(R.string.API_URL), "GET", object : DataCallback {
-            override fun onDataReceived(response: List<AppModel>) {
+            override fun onDataReceived(response: List<ProjectModel>) {
                 setApps(response)
             }
 

@@ -20,7 +20,7 @@ import com.trindade.oak.R
 import com.trindade.oak.data.models.*
 
 @Composable
-fun AppsList(apps: List<AppModel>) {
+fun AppsList(apps: List<ProjectModel>) {
     LazyColumn(
         contentPadding = PaddingValues(8.dp)
     ) {
@@ -31,7 +31,7 @@ fun AppsList(apps: List<AppModel>) {
 }
 
 @Composable
-fun AppItem (app: AppModel) {
+fun AppItem (app: ProjectModel) {
        Card(
            shape = RoundedCornerShape(20.dp),
            modifier = Modifier

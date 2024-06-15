@@ -10,7 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 import com.trindade.oak.R
-import com.trindade.oak.data.models.AppModel
+import com.trindade.oak.data.models.ProjectModel
 import com.trindade.oak.network.*
 
 class DataRepository(private val context: Context) : RequestListener {
@@ -32,8 +32,8 @@ class DataRepository(private val context: Context) : RequestListener {
 
     override fun onResponse(tag: String, response: String, responseHeader: HashMap<String, String>) {
         val gson = Gson()
-        val type = object : TypeToken<List<AppModel>>() {}.type
-        val apps: List<AppModel> = gson.fromJson(response, type)
+        val type = object : TypeToken<List<ProjectModel>>() {}.type
+        val apps: List<ProjectModel> = gson.fromJson(response, type)
         callback?.onDataReceived(apps)
     }
 

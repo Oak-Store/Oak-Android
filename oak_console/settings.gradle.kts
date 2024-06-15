@@ -14,6 +14,6 @@ dependencyResolutionManagement {
   }
 }
 
-rootProject.name = "oak_client"
+rootProject.name = "oak_console"
 
-include(":store")
+include(":console")

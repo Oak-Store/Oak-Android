@@ -55,9 +55,9 @@ class MainActivity : ComponentActivity() {
                  HomeScreen(context)
             }
             composable("appdetails/{appModel}",
-                arguments = listOf(navArgument("appModel") { type = NavType.ParcelableType(AppModel::class.java) })
+                arguments = listOf(navArgument("appModel") { type = NavType.ParcelableType(ProjectModel::class.java) })
             ) { entry ->
-              entry.arguments?.getParcelable<AppModel>("appModel")?.let { appModel ->
+              entry.arguments?.getParcelable<ProjectModel>("appModel")?.let { appModel ->
                         AppDetailsScreen(appModel)
               }
             }
