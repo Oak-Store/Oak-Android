@@ -14,7 +14,7 @@ on:
 
 jobs:
   build_debug_apk_client:
-    name: Build OakStore Debug APK
+    name: Build Oak Client Debug APK
     runs-on: ubuntu-latest
     env:
       GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
@@ -108,7 +108,7 @@ jobs:
             Grupo Oficial: @oakcic
             Baixe agora:
   build_debug_apk_console:
-    name: Build OakStore Debug APK
+    name: Build Oak Console Debug APK
     runs-on: ubuntu-latest
     env:
       GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
@@ -132,16 +132,16 @@ jobs:
         uses: gradle/wrapper-validation-action@v1
 
       - name: Create google-services.json
-        run: echo "$GOOGLE_SERVICES_JSON" > oak_console/store/google-services.json
+        run: echo "$GOOGLE_SERVICES_JSON" > oak_console/console/google-services.json
 
       - name: Check google-services.json
-        run: cat oak_console/store/google-services.json
+        run: cat oak_console/console/google-services.json
 
       - name: Create api_keys.xml
-        run: echo "$API_FILE" > oak_console/store/src/main/res/values/api_keys.xml
+        run: echo "$API_FILE" > oak_console/console/src/main/res/values/api_keys.xml
 
       - name: Check api_keys.xml
-        run: cat oak_console/store/src/main/res/values/api_keys.xml
+        run: cat oak_console/console/src/main/res/values/api_keys.xml
 
       - name: Build with Gradle
         id: gradle_build_debug
@@ -168,7 +168,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: store-debug
-          path: oak_console/store/build/outputs/apk/debug/store-debug.apk
+          path: oak_console/console/build/outputs/apk/debug/store-debug.apk
 
       - name: Send APK to OakStore CI Telegram
         if: success()
@@ -177,7 +177,7 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           format: markdown
-          document: store/build/outputs/apk/debug/store-debug.apk
+          document: console/build/outputs/apk/debug/store-debug.apk
           disable_web_page_preview: false
           message: |
             *Build Success!*
@@ -194,7 +194,7 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO_PROGBRS }}
           token: ${{ secrets.TELEGRAM_TOKEN_PROGBRS }}
           format: markdown
-          document: oak_console/store/build/outputs/apk/debug/store-debug.apk
+          document: oak_console/console/build/outputs/apk/debug/store-debug.apk
           disable_web_page_preview: false
           message: |
             Nova build da *Oak Store!*
