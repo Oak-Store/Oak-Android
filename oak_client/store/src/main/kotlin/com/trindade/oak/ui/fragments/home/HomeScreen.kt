@@ -37,26 +37,24 @@ private fun HomeContent(context: Context) {
     val (apps, setApps) = remember { mutableStateOf<List<ProjectModel>?>(null) }
     val (error, setError) = remember { mutableStateOf<String?>(null) }
     val dataRepo = DataRepository(context)
+    
+    val callbackListener = DataCallback {
+         override fun onProjectsReceive(response: List<ProjectModel>) {
+              setApps(response)
+         }
+         override fun onError(message: String) {
+              setError(message)
+         }
+    }
 
     LaunchedEffect(Unit) {
-        dataRepo.getData(context.getString(R.string.API_URL), "GET", object : DataCallback {
-            override fun onDataReceived(response: List<ProjectModel>) {
-                setApps(response)
-            }
-
-            override fun onError(message: String) {
-                setError(message)
-            }
-        })
+        dataRepo.getData(context.getString(R.string.API_URL), "GET", callbackListener)
     }
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
-        topAppBarLarge(
-           title = "Oak Store"
-        )
+        topAppBarLarge(title = "Oak Store")
 
         Column(
             modifier = Modifier
@@ -66,9 +64,7 @@ private fun HomeContent(context: Context) {
             if (apps != null) {
                 AppsList(apps)
             } else if (error != null) {
-                Text (
-                    text = error,
-                    color = MaterialTheme.colorScheme.error
+                Text (text = error, color = MaterialTheme.colorScheme.error
                 )
             } else {
                 CircularProgressIndicator()

@@ -34,7 +34,7 @@ class DataRepository(private val context: Context) : RequestListener {
         val gson = Gson()
         val type = object : TypeToken<List<ProjectModel>>() {}.type
         val apps: List<ProjectModel> = gson.fromJson(response, type)
-        callback?.onDataReceived(apps)
+        callback?.onProjectsReceive(apps)
     }
 
     override fun onErrorResponse(tag: String, response: String) {

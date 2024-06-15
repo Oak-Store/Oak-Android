@@ -21,6 +21,7 @@ import androidx.compose.foundation.shape.*
 import androidx.compose.foundation.layout.*
 
 import com.trindade.oak.ui.theme.*
+import com.trindade.oak.ui.models.*
 import com.trindade.oak.data.models.*
 import com.trindade.oak.ui.fragments.home.*
 import com.trindade.oak.ui.fragments.details.*
@@ -54,12 +55,15 @@ class MainActivity : ComponentActivity() {
             composable("home") {
                  HomeScreen(context)
             }
-            composable("appdetails/{appModel}",
-                arguments = listOf(navArgument("appModel") { type = NavType.ParcelableType(ProjectModel::class.java) })
+            composable("appdetails/{projectModel}",
+                arguments = listOf(navArgument("projectModel") { type = NavType.ParcelableType(ProjectModel::class.java) })
             ) { entry ->
-              entry.arguments?.getParcelable<ProjectModel>("appModel")?.let { appModel ->
+              entry.arguments?.getParcelable<ProjectModel>("projectModel")?.let { projectModel ->
                         AppDetailsScreen(appModel)
               }
+            }
+            composable("preferences") {
+                PreferenceScreen()
             }
          }
     }
