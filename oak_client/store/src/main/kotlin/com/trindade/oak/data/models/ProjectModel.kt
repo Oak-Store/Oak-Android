@@ -18,4 +18,4 @@ data class ProjectModel(
     val project_dev_id: String,
     val project_dev_name: String,
     val project_dev_photo: String
-) : Parcelize
+) : Parcelable

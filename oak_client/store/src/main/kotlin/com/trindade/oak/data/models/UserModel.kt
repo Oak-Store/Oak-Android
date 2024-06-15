@@ -15,4 +15,4 @@ data class UserModel(
     val dev_levels: String,
     val dev_bio: String,
     val dev_bio_urls: String
-) : Parcelize
+) : Parcelable
