@@ -168,7 +168,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: store-debug
-          path: oak_console/console/build/outputs/apk/debug/store-debug.apk
+          path: oak_console/console/build/outputs/apk/debug/console-debug.apk
 
       - name: Send APK to OakStore CI Telegram
         if: success()
@@ -177,7 +177,7 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           format: markdown
-          document: console/build/outputs/apk/debug/store-debug.apk
+          document: console/build/outputs/apk/debug/console-debug.apk
           disable_web_page_preview: false
           message: |
             *Build Success!*
@@ -194,10 +194,10 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO_PROGBRS }}
           token: ${{ secrets.TELEGRAM_TOKEN_PROGBRS }}
           format: markdown
-          document: oak_console/console/build/outputs/apk/debug/store-debug.apk
+          document: oak_console/console/build/outputs/apk/debug/console-debug.apk
           disable_web_page_preview: false
           message: |
-            Nova build da *Oak Store!*
+            Nova build do **Oak Console!**
             Repository: *${{ github.repository }}*
             Grupo Oficial: @oakcic
             Baixe agora:
