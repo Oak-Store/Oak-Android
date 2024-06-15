@@ -65,7 +65,7 @@ fun AppItem (app: ProjectModel) {
                          
                          Text(
                              color = MaterialTheme.colorScheme.onBackground,
-                             text = app.project_dev_app,
+                             text = app.project_dev_name,
                              style = MaterialTheme.typography.bodyMedium
                          )
                     }
