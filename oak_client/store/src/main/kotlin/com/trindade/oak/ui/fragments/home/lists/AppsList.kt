@@ -45,7 +45,7 @@ fun AppItem (app: ProjectModel) {
                     modifier = Modifier.fillMaxSize()
                 ) {
                     AsyncImage(
-                        model = app.photo_app,
+                        model = app.project_photo_app,
                         contentDescription = "App icon",
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
@@ -58,14 +58,14 @@ fun AppItem (app: ProjectModel) {
                         modifier = Modifier.fillMaxSize()
                     ) {
                          Text(
-                             text = app.name_app,
+                             text = app.project_name_app,
                              color = MaterialTheme.colorScheme.primary,
                              style = MaterialTheme.typography.bodyLarge
                          )
                          
                          Text(
                              color = MaterialTheme.colorScheme.onBackground,
-                             text = app.dev_name,
+                             text = app.project_dev_app,
                              style = MaterialTheme.typography.bodyMedium
                          )
                     }

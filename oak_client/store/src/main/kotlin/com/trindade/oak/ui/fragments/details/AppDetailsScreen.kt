@@ -23,7 +23,7 @@ fun AppDetailsScreen(app: ProjectModel) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(app.name_app) },
+                title = { Text(app.project_name_app) },
             )
         }
     ) {
